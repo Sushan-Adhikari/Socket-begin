@@ -8,7 +8,8 @@ import socket
 
 #Or use: for making your code dynamic
 HOST = socket.gethostbyname(socket.gethostname())
-
+#the client needs to use the HOST IP address for accessing the server
+# HOST = '192.168.137.176' #For samman's hotspot
 #for port, don't choose reserved ports
 PORT = 9948 
 
@@ -25,10 +26,11 @@ server.listen(5) #listen for 5 requests and discard the rest(how many unaccepted
 #the socket that is going to be established after the communication is accepted is:
 while True:
     communication_socket, address = server.accept() #accept() returns the address of the client and the socket used for communication with that client
+    #communication_socket is the created end point for the client after accepting it
     print(f"connected to {address}")    #message to be printed
     message = communication_socket.recv(1024).decode('utf-8')   #the sent message is encrypted by the client, we usually take 1024 bytes as buffer size
     print(f"Message from client is: {message}") #After decoding, display the message
-    communication_socket.send(f"Got your message! Thank You!").encode('utf-8') #sending another message to the client, we need to encode it
+    communication_socket.send(f"Got your message! Thank You!".encode('utf-8')) #sending another message to the client, we need to encode it
     communication_socket.close()
     print(f"connection with {address} ended!")
 
